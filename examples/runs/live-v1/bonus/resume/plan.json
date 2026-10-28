@@ -1,0 +1,46 @@
+{
+  "plan": {
+    "asset_id": "economy",
+    "channel": "post",
+    "script": {
+      "headline": "期末复习季，来校园咖啡店自习吧",
+      "body": "复习季期间，校园咖啡店为同学们准备了期末复习季活动：进店即可了解活动规则与参与方式，并可在店内安静区域自习。具体活动内容与参与条件以店内公告为准，欢迎携带学生证到店咨询，我们不在此处标注任何优惠价格。",
+      "call_to_action": "到店查看活动公告，向店员了解参与规则并现场参与"
+    },
+    "version": 1,
+    "theme": "校园咖啡店期末复习季活动：帮助学生了解活动规则并到店参与，不编造优惠价格"
+  },
+  "cost": {
+    "spent": "0.70",
+    "production_cost": "6.00",
+    "save_fee_reserved": "0.00",
+    "projected_total": "6.70",
+    "budget_gap": "0.00",
+    "projected_finish": "2026-10-28T04:49:43.908387+00:00",
+    "time_gap_minutes": 0.0,
+    "feasible": true
+  },
+  "ledger": [
+    {
+      "tool": "search_assets",
+      "fee": "0.20",
+      "minutes": 1
+    },
+    {
+      "tool": "generate_script",
+      "fee": "0.30",
+      "minutes": 2
+    },
+    {
+      "tool": "estimate_cost",
+      "fee": "0.10",
+      "minutes": 1
+    },
+    {
+      "tool": "save_plan",
+      "fee": "0.10",
+      "minutes": 1
+    }
+  ],
+  "note": "合成方案；尚未实际制作、发布或购买素材"
+}

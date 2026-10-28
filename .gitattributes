@@ -1,0 +1,3 @@
+* text=auto eol=lf
+# Preserve the exact bytes of recorded runs so their SHA-256 evidence survives checkout.
+examples/runs/** -text whitespace=cr-at-eol

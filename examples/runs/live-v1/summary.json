@@ -1,0 +1,54 @@
+{
+  "mode": "live",
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "real_model_verified": true,
+  "recorded_at_utc": "2026-10-28T04:29:26.304783+00:00",
+  "cases": [
+    {
+      "case": "normal",
+      "status": "completed",
+      "model_calls": 4,
+      "total_tokens": 11037,
+      "projected_total": "6.70",
+      "budget_gap": "0.00",
+      "script_version": 1,
+      "started_at": "2026-10-28T04:07:26.324733+00:00",
+      "failed_steps": 0
+    },
+    {
+      "case": "tool-failure",
+      "status": "completed",
+      "model_calls": 5,
+      "total_tokens": 14955,
+      "projected_total": "6.70",
+      "budget_gap": "0.00",
+      "script_version": 1,
+      "started_at": "2026-10-28T04:07:43.801308+00:00",
+      "failed_steps": 1
+    },
+    {
+      "case": "budget-replan",
+      "status": "completed",
+      "model_calls": 6,
+      "total_tokens": 21063,
+      "projected_total": "7.10",
+      "budget_gap": "0.00",
+      "script_version": 2,
+      "started_at": "2026-10-28T04:09:32.768872+00:00",
+      "failed_steps": 0
+    },
+    {
+      "case": "impossible",
+      "status": "incomplete",
+      "model_calls": 4,
+      "total_tokens": 10678,
+      "projected_total": "6.70",
+      "budget_gap": "3.70",
+      "script_version": 1,
+      "started_at": "2026-10-28T04:10:02.555986+00:00",
+      "failed_steps": 0
+    }
+  ],
+  "notice": "Model calls are real. Business tools, prices and durations are synthetic. No API keys or internal reasoning are stored."
+}

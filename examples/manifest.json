@@ -1,0 +1,19 @@
+{
+  "assignment": 2,
+  "title": "内容任务规划 Agent",
+  "cases": [
+    {"name": "normal", "directory": "examples/runs/offline-v1/normal", "mode": "mock", "expected_status": "completed", "checks": ["normal"]},
+    {"name": "missing-budget", "directory": "examples/runs/offline-v1/missing-budget", "mode": "mock", "expected_status": "needs_input", "checks": ["missing_budget"]},
+    {"name": "missing-deadline", "directory": "examples/runs/offline-v1/missing-deadline", "mode": "mock", "expected_status": "needs_input", "checks": ["missing_deadline"]},
+    {"name": "tool-failure", "directory": "examples/runs/offline-v1/tool-failure", "mode": "mock", "expected_status": "completed", "checks": ["tool_failure"]},
+    {"name": "over-budget", "directory": "examples/runs/offline-v1/over-budget", "mode": "mock", "expected_status": "completed", "checks": ["budget_replan"]},
+    {"name": "impossible", "directory": "examples/runs/offline-v1/impossible", "mode": "mock", "expected_status": "incomplete", "checks": ["budget_gap"]},
+    {"name": "time-tight", "directory": "examples/runs/offline-v1/time-tight", "mode": "mock", "expected_status": "completed", "checks": []},
+    {"name": "time-impossible", "directory": "examples/runs/offline-v1/time-impossible", "mode": "mock", "expected_status": "incomplete", "checks": ["time_gap"]},
+    {"name": "live-normal", "directory": "examples/runs/live-v1/normal", "mode": "live", "expected_status": "completed", "checks": ["normal"]},
+    {"name": "live-tool-failure", "directory": "examples/runs/live-v1/tool-failure", "mode": "live", "expected_status": "completed", "checks": ["tool_failure"]},
+    {"name": "live-budget-replan", "directory": "examples/runs/live-v1/budget-replan", "mode": "live", "expected_status": "completed", "checks": ["budget_replan"]},
+    {"name": "live-impossible", "directory": "examples/runs/live-v1/impossible", "mode": "live", "expected_status": "incomplete", "checks": ["budget_gap"]}
+  ],
+  "bonus_summaries": ["examples/runs/bonus-v1/summary.json", "examples/runs/live-v1/bonus/summary.json"]
+}

@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "checked_cases": 12,
+  "different_live_paths": 4,
+  "covered": [
+    "budget_gap",
+    "budget_replan",
+    "missing_budget",
+    "missing_deadline",
+    "normal",
+    "time_gap",
+    "tool_failure"
+  ],
+  "cases": [
+    {
+      "case": "normal",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "case": "missing-budget",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "case": "missing-deadline",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "case": "tool-failure",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "case": "over-budget",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "case": "impossible",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "case": "time-tight",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "case": "time-impossible",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "case": "live-normal",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "case": "live-tool-failure",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "case": "live-budget-replan",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "case": "live-impossible",
+      "passed": true,
+      "errors": []
+    }
+  ],
+  "errors": [],
+  "note": "Checks local evidence consistency; remote repository visibility and commit SHA are verified separately.",
+  "checked_at_utc": "2026-10-28T04:43:42.776235+00:00"
+}

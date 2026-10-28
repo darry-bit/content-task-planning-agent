@@ -1,75 +1,63 @@
-# 验收结果与局限
+# 评估：实际结果、失败与限制
 
-## 供应商扩展验证
+## 执行环境与方法
 
-2026-10-28 按用户已有渠道增加 DeepSeek 与百炼 Qwen Chat 适配，46 项测试通过（初版为 37 项）。新增协议测试覆盖供应商参数、凭据隔离、业务空间地址配置、无效响应、错误脱敏及检查点身份；受控响应 CLI 集成测试走过超预算反馈循环。日志见 `examples/verification/unittest-providers.txt`。这些均未访问真实模型，不能算作真实模型验收。
+2026-10-28，Windows，Python 3.12.14。源码运行仅依赖标准库。先执行确定性单元/CLI 测试，再调用真实 DeepSeek API。合成业务数据与真实模型调用严格区分。
 
-## 实际执行环境
+当前测试共 51 项，日志 `examples/verification/unittest-final.txt`；题目逐项证据检查见 `examples/verification/submission-check.json`。初版 37 项与供应商扩展 46 项日志保留为真实阶段记录。`examples/manifest.json` 汇总全部 12 个基础案例。
 
-2026-10-28，Windows，Python 3.12.14。运行源码无第三方依赖。测试使用工作区临时目录，因为当前沙箱的系统临时目录无法正常写入和清理；切换目录后通过，未跳过测试。
+## 4 条真实模型路径
 
-测试命令：`PYTHONPATH=src python -m unittest discover -s tests -v`（PowerShell 设置语法见 README）。共 37 项通过；最终日志位于 `examples/verification/unittest.txt`。构建安装与安装后的 `python -m content_agent` 入口也已执行并通过，记录见 `examples/verification/package-check.json`。
+模型：DeepSeek 官方 API 实际返回的可用模型 `deepseek-flash`，使用非思考工具调用；密钥来自本机环境变量，未保存。每轮 Trace 保留 response ID、公开动作依据、参数、usage 与工具观察，不保存内部思维链。
 
-## 必选验收：8 组实际 CLI 运行
-
-批量执行命令：`python scripts/evaluate.py --output examples/runs/offline-v1`。该目录已包含证据，再次验证请换新输出目录。
-
-所有案例模式均为 **mock**，固定业务时钟为 `2026-10-28T10:00:00+08:00`。实际执行时间另记录于 `summary.json`，不把模拟业务时钟当作真实执行时刻。
-
-| 案例目录 | 预期 | 实际 | 关键数值或观察 |
+| 案例 | 预期 | 实际 | 证据 |
 | --- | --- | --- | --- |
-| normal | 成功保存 | completed | 总费用 12.70，制作费 12，已发生工具费 0.70 |
-| missing-budget | 要求补充预算 | needs_input | missing=[budget]，空 Trace，无模型调用 |
-| missing-deadline | 要求补充截止时间 | needs_input | missing=[deadline]，空 Trace，无模型调用 |
-| tool-failure | 失败后调整动作 | completed | 估算注入故障后，仅重试估算；脚本版本仍为 1 |
-| over-budget | 原方案超限后换方案 | completed | 12.70 → 9.10；新方案 economy/video，版本 2 |
-| impossible | 无可行方案 | incomplete | 最后候选预计 7.50，相对预算 3 缺口 4.50；未保存 |
-| time-tight | 选择耗时较短的方案 | completed | 最终 economy/post，费用 7.50，满足 10:45 截止 |
-| time-impossible | 时间不足 | incomplete | 相对 10:05 截止时间缺口 36 分钟；未保存 |
+| 正常完成 | 满足约束并保存 | completed；economy/post；6.70 | `examples/runs/live-v1/normal/` |
+| 工具失败 | 模型观察失败，保留成功结果后恢复 | completed；估算失败后重试；脚本版本 1；6.70 | `examples/runs/live-v1/tool-failure/` |
+| 预算超限 | 观察超限后自主降级并重新估算 | 12.70 → 7.10；premium/video → economy/post；版本 2；completed | `examples/runs/live-v1/budget-replan/` |
+| 无可行方案 | 明确未完成及缺口 | incomplete；预计 6.70，相对预算 3 缺口 3.70；未保存 | `examples/runs/live-v1/impossible/` |
 
-每个案例目录保存 `input.json`、`output.json`、`trace.jsonl` 和 `command.json`。执行过业务步骤的案例另有 `state.json`；成功案例有 `plan.json`。总览见 `examples/runs/offline-v1/summary.json`。
+四组基础真实案例共 19 次模型调用，服务返回 total_tokens 合计 57733；用量不等于实际货币账单。详见 `examples/runs/live-v1/summary.json`。另有真实续跑的独立调用，不包含在此合计中。
 
-## 两条可检查的离线路径
+正常路径：search_assets → generate_script → estimate_cost → save_plan。
 
-正常：search_assets → generate_script → estimate_cost → save_plan。
+故障路径：search_assets → generate_script → estimate_cost(failed) → estimate_cost(succeeded) → save_plan。
 
-超预算：search_assets → generate_script(premium/video) → estimate_cost(12.70, infeasible) → generate_script(economy/video) → estimate_cost(9.10, feasible) → save_plan。
+预算路径：search_assets → generate_script(premium/video) → estimate_cost(12.70, infeasible) → generate_script(economy/post) → estimate_cost(7.10, feasible) → save_plan。
 
-超预算第二次估算时已发生工具费为 1.00，制作费为 8.00，预留保存费为 0.10；保存后已发生工具费为 1.10，总费用保持 9.10。不能把 12.70 与 9.10 相加。
+预算输入是合成运营偏好：要求先给出高品质初稿，报价超限时允许模型降级。程序没有强制第二个方案；模型实际根据超限观察选择 economy/post。保留原始 Trace，包括模型公开依据中的个别措辞错误，未润色运行日志。
 
-这两条路径来自固定 Mock 策略，**不证明模型具有动态决策能力**。它们验证的是执行器、反馈结构、约束和证据记录。
+## 8 组离线验收
 
-## 加分项：失败步骤续跑与重复执行
+固定业务时钟为 2026-10-28T10:00:00+08:00，实际执行时间另记录。Mock 仅验证流程，不证明模型推理。
 
-实际材料位于 `examples/runs/bonus-v1/`：
+| 案例 | 预期/实际 | 关键观察 |
+| --- | --- | --- |
+| normal | completed / completed | 总费用 12.70 |
+| missing-budget | needs_input / needs_input | missing=[budget]，空 Trace，无工具调用 |
+| missing-deadline | needs_input / needs_input | missing=[deadline]，空 Trace，无工具调用 |
+| tool-failure | completed / completed | 保留脚本，估算失败后恢复 |
+| over-budget | completed / completed | 12.70 → 9.10，方案版本变化 |
+| impossible | incomplete / incomplete | 最后候选 7.50，预算缺口 4.50，无保存 |
+| time-tight | completed / completed | 改为较快的 economy/post |
+| time-impossible | incomplete / incomplete | 时间缺口 36 分钟，无保存 |
 
-1. `before-resume/`：估算故障后达到 3 步上限，状态 incomplete；成功脚本已存在，估算失败仍为 failed。
-2. `resume/`：从检查点重试估算并保存，最终脚本版本 1，总费用 12.70。生成脚本仅成功执行一次。
-3. 再次 `--resume`：退出码 0，state、trace、plan、output 四个文件的 SHA-256 不变。
+输入、输出、Trace、命令及状态位于 `examples/runs/offline-v1/`。至少三组材料覆盖全部必选点的要求已满足。
 
-三个进程退出码实际为 3 → 0 → 0。摘要及哈希位于 `examples/runs/bonus-v1/summary.json`。复现命令见 README。
+## 加分项：真实与离线续跑、重复执行
 
-## 测试覆盖与审查修复
+`examples/runs/live-v1/bonus/` 保存估算故障后达到上限的检查点，以及从该检查点继续的实际结果。真实退出码 3 → 0 → 0；续跑没有重复生成脚本，版本仍为 1，总费用 6.70。重复读取完成结果时，state、trace、plan、output 四个文件 SHA-256 不变，没有新的模型调用。
 
-- 金额使用 Decimal，覆盖零预算、负值、非有限值、小数边界、保存预留费用。
-- 时间包含时区、模拟工具耗时、实际当前时间和制作剩余时间；估算通过后若时钟推进，保存仍会被阻止。
-- 未检索不能生成；未生成不能估算；未估算或方案变化后不能保存。
-- 文件写失败返回 WRITE_FAILED，不报告已保存；模拟失败不收费。
-- 未知工具、额外参数和渠道非法类型均转为工具错误，不信任模型参数。
-- 模型服务的 HTTP、协议、不完整响应和多工具异常有明确边界；协议替身测试不访问外网。
-- 模型 finish 不能直接宣称成功；连续三次失败或累计动作达上限会明确停止。
-- 检查点校验输入、时钟、规则和模型身份，完成结果复用时还检查保存文件。
+对应离线证据位于 `examples/runs/bonus-v1/`，最终费用 12.70。前后状态、完整 Trace 与哈希均保留，验收脚本会重新核对哈希。
 
-审查发现并修复：渠道参数为 dict/list 时字典查询引发 TypeError。先增加失败用例，再加入显式字符串校验；相关测试通过。此修改由 AI 完成，不列为用户个人贡献。
+## 失败与修复
 
-## 真实模型验收：尚未完成
+系统 Python 别名和沙箱临时目录不可用，改用可执行的 Python 与工作区临时目录，未跳过测试。参数审查发现渠道为 dict/list 时抛 TypeError；先写回归测试，再加类型校验，错误进入工具观察。文件写失败、过期截止时间、旧估算、无效模型调用、HTTP 错误及动作上限均有测试。
 
-尚未配置或调用真实模型；没有真实模型 Trace，无法据此宣称满足最终考核的模型决策要求。
+最终首轮全量测试曾出现一个 plan.json 前置产物缺失，日志保留于 `examples/verification/unittest-final-attempt1.txt`。为该用例增加初次 CLI 运行成功断言后，单独及完整 51 项测试通过；首次缺失原因未能稳定复现，不据此宣称修复了已知生产缺陷。
 
-用户本地配置后，至少运行两条不同路径，例如正常路径与注入工具失败的恢复路径。检查：模型是否看见失败、是否保留脚本、是否选择重试或合理停止；如果模型没能恢复，保留失败记录并据此修改。供应商模型可能直接选择低成本方案，不保证必然先走超预算分支。
+## 局限
 
-不要只截屏，不要编辑 Trace 伪造路径。将去除敏感信息的真实输入、输出、Trace 和实际结论放入 `examples/`，并补充本节。
+文案是模型生成草稿，可能引入用户未给出的活动细节，需运营核实后发布。合成目录不代表真实素材检索或授权，完成只表示方案保存。当前仅验证一家的一个真实模型；百炼和 OpenAI 为协议测试。API 模型结果具有随机性，复现应检查约束和行为，不能要求文案逐字一致。
 
-## 已知限制
-
-合成目录只有两项，不代表真实检索效果；Mock 文案为模板，不代表真实内容质量。未验证不同真实模型兼容性、内容事实正确性或商业素材授权。实际模型 API 费用不计入模拟单位。续跑为单机顺序检查点，未保证任意强制中断或并发写入时的事务一致性。尚无 GitHub URL、用户实践证据和最终远端提交 SHA。
+单机 JSON 检查点不等于事务系统；未实现并发控制或任意强制中断后的精确一次语义。真实模型 API 费用不属于模拟预算，保留 token usage 供核对平台账单。

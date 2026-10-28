@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "python",
+    "run.py",
+    "--input",
+    "examples/inputs/live-normal.json",
+    "--mode",
+    "live",
+    "--provider",
+    "deepseek",
+    "--output",
+    "examples/runs/live-v1/normal"
+  ],
+  "exit_code": 0,
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "credentials_source": "local environment (not recorded)",
+  "clock_is_simulated": false
+}

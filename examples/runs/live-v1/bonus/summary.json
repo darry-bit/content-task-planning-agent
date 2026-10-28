@@ -1,0 +1,31 @@
+{
+  "mode": "live",
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "real_model_verified": true,
+  "failed_tool": "estimate_cost",
+  "successful_script_preserved": true,
+  "plan_version_after_resume": 1,
+  "cost_after_resume": {
+    "spent": "0.70",
+    "production_cost": "6.00",
+    "save_fee_reserved": "0.00",
+    "projected_total": "6.70",
+    "budget_gap": "0.00",
+    "projected_finish": "2026-10-28T04:49:43.908387+00:00",
+    "time_gap_minutes": 0.0,
+    "feasible": true
+  },
+  "exit_codes": [
+    3,
+    0,
+    0
+  ],
+  "repeated_execution_artifact_hashes_unchanged": true,
+  "sha256": {
+    "state.json": "65ec6aae0a2a22c3bc83b828cf87fbfa08d260fd1d07b54da5d4a81e72660f3b",
+    "trace.jsonl": "370c173d52444670e7137c6aaf47ad39fc9f8b5a29a1bf55cd6e51a657c73547",
+    "plan.json": "f9f180f581e28e7effe91f66ccb2a631b6e11601c4c5a5b34ede96cc3715877b",
+    "output.json": "299be71caabffc47230ff5f85159d3bb3f3f193885b48da466b1083006075968"
+  }
+}

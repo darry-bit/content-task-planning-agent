@@ -90,7 +90,8 @@ class CliTests(unittest.TestCase):
         self.assertEqual(self.cli("--resume").returncode, 2)
 
     def test_missing_saved_artifact_cannot_stay_completed(self):
-        self.cli()
+        initial = self.cli()
+        self.assertEqual(initial.returncode, 0, initial.stdout + initial.stderr)
         (self.root / "run/plan.json").unlink()
         self.assertEqual(self.cli("--resume").returncode, 2)
 

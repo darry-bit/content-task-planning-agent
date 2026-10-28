@@ -1,0 +1,11 @@
+{
+  "provider": "deepseek",
+  "model": "deepseek-flash",
+  "clock_is_simulated": false,
+  "commands": [
+    {"command": "python run.py --input examples/inputs/live-normal.json --mode live --provider deepseek --output examples/runs/live-v1/bonus/resume --fail-once estimate_cost --max-steps 3", "exit_code": 3},
+    {"command": "python run.py --input examples/inputs/live-normal.json --mode live --provider deepseek --output examples/runs/live-v1/bonus/resume --resume", "exit_code": 0},
+    {"command": "python run.py --input examples/inputs/live-normal.json --mode live --provider deepseek --output examples/runs/live-v1/bonus/resume --resume", "exit_code": 0}
+  ],
+  "note": "Recorded commands; to rerun, create a new output directory and update the actual deadline. No credentials are recorded."
+}
