@@ -1,0 +1,19 @@
+{
+  "currency": "simulated_units",
+  "failure_fee": "0.00",
+  "failure_minutes": 1,
+  "tools": {
+    "search_assets": {"fee": "0.20", "minutes": 1},
+    "generate_script": {"fee": "0.30", "minutes": 2},
+    "estimate_cost": {"fee": "0.10", "minutes": 1},
+    "save_plan": {"fee": "0.10", "minutes": 1}
+  },
+  "channels": {
+    "video": {"cost": "4.00", "minutes": 60},
+    "post": {"cost": "2.00", "minutes": 20}
+  },
+  "assets": [
+    {"id": "premium", "title": "合成素材：专业场景镜头", "cost": "8.00", "minutes": 30, "license": "synthetic-demo", "tags": ["活动", "校园", "咖啡"]},
+    {"id": "economy", "title": "合成素材：店内图文与通用镜头", "cost": "4.00", "minutes": 10, "license": "synthetic-demo", "tags": ["活动", "校园", "咖啡"]}
+  ]
+}
