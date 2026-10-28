@@ -1,14 +1,13 @@
 """CLI entry point, replay protection and local checkpoints."""
 import argparse
 import json
-import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 from .agent import run_agent, summary
 from .constraints import parse_time, validate_request
-from .live_model import ResponsesModel
+from .chat_model import create_live_model
 from .mock_model import MockModel
 from .storage import read_json, write_json, write_trace
 from .tools import Engine, rules_fingerprint
@@ -19,6 +18,8 @@ def parser() -> argparse.ArgumentParser:
     cli.add_argument("--input", required=True, type=Path, help="输入 JSON")
     cli.add_argument("--output", required=True, type=Path, help="新建运行目录；非空目录须 --resume")
     cli.add_argument("--mode", choices=["mock", "live"], default="mock")
+    cli.add_argument("--provider", choices=["openai", "deepseek", "dashscope"], default="openai",
+                     help="live 供应商：OpenAI Responses / DeepSeek Chat / 百炼 Qwen Chat；mock 时不调用供应商")
     cli.add_argument("--max-steps", type=int, default=16, help="累计模型动作上限，1..50")
     cli.add_argument("--now", help="仅 Mock 可用的固定当前时间；必须带时区")
     cli.add_argument("--fail-once", choices=["search_assets", "generate_script", "estimate_cost", "save_plan"],
@@ -51,9 +52,7 @@ def execute(args) -> tuple[dict, int]:
         write_json(args.output / "output.json", result)
         write_trace(args.output / "trace.jsonl", [])
         return result, 3
-    model = MockModel() if args.mode == "mock" else ResponsesModel(
-        os.environ.get("OPENAI_API_KEY", ""), os.environ.get("OPENAI_MODEL", ""),
-        base_url=os.environ.get("OPENAI_BASE_URL", "https://api.openai.com/v1"))
+    model = MockModel() if args.mode == "mock" else create_live_model(args.provider)
     if args.resume:
         state = read_json(args.output / "state.json")
         if (not isinstance(state, dict) or state.get("schema_version") != 1

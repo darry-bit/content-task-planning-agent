@@ -1,0 +1,51 @@
+test_budget_feedback_produces_another_plan (test_agent.AgentTests.test_budget_feedback_produces_another_plan) ... ok
+test_invalid_actions_are_bounded (test_agent.AgentTests.test_invalid_actions_are_bounded) ... ok
+test_no_feasible_plan_returns_numeric_gap_and_no_saved_file (test_agent.AgentTests.test_no_feasible_plan_returns_numeric_gap_and_no_saved_file) ... ok
+test_normal_path_saves_and_reports_exact_cost (test_agent.AgentTests.test_normal_path_saves_and_reports_exact_cost) ... ok
+test_step_limit_and_resume_preserve_prior_results (test_agent.AgentTests.test_step_limit_and_resume_preserve_prior_results) ... ok
+test_time_feedback_selects_faster_channel (test_agent.AgentTests.test_time_feedback_selects_faster_channel) ... ok
+test_tool_failure_is_observed_then_successful_script_is_reused (test_agent.AgentTests.test_tool_failure_is_observed_then_successful_script_is_reused) ... ok
+test_untrusted_action_cannot_claim_completion (test_agent.AgentTests.test_untrusted_action_cannot_claim_completion) ... ok
+test_chat_http_errors_keep_credentials_and_service_body_private (test_chat_model.ChatModelTests.test_chat_http_errors_keep_credentials_and_service_body_private) ... ok
+test_dashscope_requires_base_url_from_console (test_chat_model.ChatModelTests.test_dashscope_requires_base_url_from_console) ... ok
+test_dashscope_uses_qwen_parameters_and_business_space_endpoint (test_chat_model.ChatModelTests.test_dashscope_uses_qwen_parameters_and_business_space_endpoint) ... ok
+test_deepseek_chat_protocol_disables_thinking_and_avoids_beta_strict (test_chat_model.ChatModelTests.test_deepseek_chat_protocol_disables_thinking_and_avoids_beta_strict) ... ok
+test_factory_does_not_mix_keys_and_requires_explicit_model (test_chat_model.ChatModelTests.test_factory_does_not_mix_keys_and_requires_explicit_model) ... ok
+test_incomplete_text_only_or_multiple_calls_do_not_execute_any_tool (test_chat_model.ChatModelTests.test_incomplete_text_only_or_multiple_calls_do_not_execute_any_tool) ... ok
+test_providers_have_different_checkpoint_identities (test_chat_model.ChatModelTests.test_providers_have_different_checkpoint_identities) ... ok
+test_chat_adapter_runs_feedback_loop_with_controlled_responses (test_cli.CliTests.test_chat_adapter_runs_feedback_loop_with_controlled_responses) ... ok
+test_cli_writes_trace_output_and_input_and_refuses_overwrite (test_cli.CliTests.test_cli_writes_trace_output_and_input_and_refuses_overwrite) ... ok
+test_live_rejects_simulated_clock (test_cli.CliTests.test_live_rejects_simulated_clock) ... ok
+test_missing_budget_returns_needs_input_without_model_configuration (test_cli.CliTests.test_missing_budget_returns_needs_input_without_model_configuration) ... ok
+test_missing_saved_artifact_cannot_stay_completed (test_cli.CliTests.test_missing_saved_artifact_cannot_stay_completed) ... ok
+test_past_deadline_is_incomplete (test_cli.CliTests.test_past_deadline_is_incomplete) ... ok
+test_provider_cli_returns_specific_missing_configuration (test_cli.CliTests.test_provider_cli_returns_specific_missing_configuration) ... ok
+test_resume_completed_run_is_idempotent_and_does_not_rewrite_trace (test_cli.CliTests.test_resume_completed_run_is_idempotent_and_does_not_rewrite_trace) ... ok
+test_resume_from_step_limit_preserves_successful_script (test_cli.CliTests.test_resume_from_step_limit_preserves_successful_script) ... ok
+test_resume_rejects_changed_rules_and_clock (test_cli.CliTests.test_resume_rejects_changed_rules_and_clock) ... ok
+test_resume_rejects_different_request (test_cli.CliTests.test_resume_rejects_different_request) ... ok
+test_budget_includes_save_fee_and_uses_decimal_arithmetic (test_constraints.ConstraintTests.test_budget_includes_save_fee_and_uses_decimal_arithmetic) ... ok
+test_deadline_checks_simulated_and_real_time (test_constraints.ConstraintTests.test_deadline_checks_simulated_and_real_time) ... ok
+test_invalid_budget_and_dates_are_rejected (test_constraints.ConstraintTests.test_invalid_budget_and_dates_are_rejected) ... ok
+test_missing_fields_are_returned_without_defaults (test_constraints.ConstraintTests.test_missing_fields_are_returned_without_defaults) ... ok
+test_theme_must_be_nonempty_text (test_constraints.ConstraintTests.test_theme_must_be_nonempty_text) ... ok
+test_zero_budget_is_valid (test_constraints.ConstraintTests.test_zero_budget_is_valid) ... ok
+test_http_error_is_redacted (test_live_model.LiveModelTests.test_http_error_is_redacted) ... ok
+test_refusal_incomplete_malformed_or_multiple_calls_fail_clearly (test_live_model.LiveModelTests.test_refusal_incomplete_malformed_or_multiple_calls_fail_clearly) ... ok
+test_requires_explicit_credentials_and_secure_endpoint (test_live_model.LiveModelTests.test_requires_explicit_credentials_and_secure_endpoint) ... ok
+test_responses_protocol_and_sequential_strict_tools (test_live_model.LiveModelTests.test_responses_protocol_and_sequential_strict_tools) ... ok
+test_cannot_save_without_successful_dependencies (test_tools.ToolTests.test_cannot_save_without_successful_dependencies) ... ok
+test_clock_moving_after_estimate_blocks_save (test_tools.ToolTests.test_clock_moving_after_estimate_blocks_save) ... ok
+test_duplicate_generation_does_not_charge_or_create_new_version (test_tools.ToolTests.test_duplicate_generation_does_not_charge_or_create_new_version) ... ok
+test_estimate_includes_tool_fees_and_save_reservation (test_tools.ToolTests.test_estimate_includes_tool_fees_and_save_reservation) ... ok
+test_failure_keeps_successful_script_and_does_not_charge_failed_call (test_tools.ToolTests.test_failure_keeps_successful_script_and_does_not_charge_failed_call) ... ok
+test_file_write_failure_is_failed_and_fee_is_rolled_back (test_tools.ToolTests.test_file_write_failure_is_failed_and_fee_is_rolled_back) ... ok
+test_new_script_invalidates_old_estimate (test_tools.ToolTests.test_new_script_invalidates_old_estimate) ... ok
+test_save_rechecks_budget_and_real_clock (test_tools.ToolTests.test_save_rechecks_budget_and_real_clock) ... ok
+test_unexpected_arguments_and_unknown_assets_are_rejected (test_tools.ToolTests.test_unexpected_arguments_and_unknown_assets_are_rejected) ... ok
+test_untrusted_argument_types_become_observations (test_tools.ToolTests.test_untrusted_argument_types_become_observations) ... ok
+
+----------------------------------------------------------------------
+Ran 46 tests in 5.260s
+
+OK

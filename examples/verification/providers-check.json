@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "unit_and_integration_tests": 46,
+  "tests_passed": true,
+  "test_log": "unittest-providers.txt",
+  "provider_protocols": ["openai-responses", "deepseek-chat", "dashscope-qwen-chat"],
+  "test_transport": "controlled-local-responses",
+  "real_model_verified": false,
+  "build_install_exit_code": 0,
+  "build_used_network": false,
+  "installed_module_help_lists_all_providers": true,
+  "note": "No user credentials were read or used. Provider API behavior still requires local live acceptance."
+}

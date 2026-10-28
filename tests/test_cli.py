@@ -4,6 +4,12 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
+from datetime import datetime, timedelta, timezone
+
+from content_agent.cli import execute, parser
+from content_agent.chat_model import ChatCompletionsModel
+from content_agent.mock_model import MockModel
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -87,6 +93,37 @@ class CliTests(unittest.TestCase):
         self.cli()
         (self.root / "run/plan.json").unlink()
         self.assertEqual(self.cli("--resume").returncode, 2)
+
+    def test_provider_cli_returns_specific_missing_configuration(self):
+        args = parser().parse_args(["--input", str(self.source), "--output", str(self.root / "live"),
+                                    "--mode", "live", "--provider", "deepseek"])
+        with patch.dict("os.environ", {}, clear=True):
+            with self.assertRaisesRegex(ValueError, "DEEPSEEK_API_KEY"):
+                execute(args)
+
+    def test_chat_adapter_runs_feedback_loop_with_controlled_responses(self):
+        # This is a protocol integration test; the transport is fake, not a real LLM.
+        self.source.write_text(json.dumps({**self.request,
+            "deadline": (datetime.now(timezone.utc) + timedelta(days=1)).isoformat()}), encoding="utf-8")
+        def transport(request, timeout):
+            body = json.loads(request.data)
+            context = json.loads(body["messages"][-1]["content"])
+            action = MockModel().decide(context)
+            return {"id": "controlled-response", "choices": [{"finish_reason": "tool_calls", "message": {
+                "tool_calls": [{"type": "function", "function": {"name": action["tool"],
+                    "arguments": json.dumps({**action["arguments"], "reason": action["reason"]})}}]}}]}
+        model = ChatCompletionsModel("test-key", "test-model", provider="deepseek",
+                                     base_url="https://api.deepseek.com", transport=transport)
+        args = parser().parse_args(["--input", str(self.source), "--output", str(self.root / "live"),
+                                    "--mode", "live", "--provider", "deepseek"])
+        with patch("content_agent.cli.create_live_model", return_value=model) as factory:
+            output, code = execute(args)
+            factory.assert_called_once_with("deepseek")
+        self.assertEqual(code, 0)
+        self.assertEqual(output["plan"]["version"], 2)
+        self.assertEqual(output["cost"]["projected_total"], "9.10")
+        trace = (self.root / "live/trace.jsonl").read_text(encoding="utf-8")
+        self.assertNotIn("test-key", trace)
 
 
 if __name__ == "__main__":

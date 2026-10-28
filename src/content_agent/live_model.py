@@ -63,30 +63,33 @@ class ResponsesModel:
 
     def __init__(self, api_key: str, model: str, *, base_url="https://api.openai.com/v1", transport=None):
         if not api_key.strip() or not model.strip():
-            raise ValueError("live 模式需要 OPENAI_API_KEY 和 OPENAI_MODEL；不要把密钥写入输入或代码")
+            raise ValueError("live 模式需要 API Key 和模型名；不要把密钥写入输入或代码")
         parsed = urlsplit(base_url)
         if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password or parsed.query or parsed.fragment:
-            raise ValueError("OPENAI_BASE_URL 必须为不含认证信息和查询参数的 HTTPS API 根地址")
+            raise ValueError("API 根地址必须为不含认证信息和查询参数的 HTTPS URL")
         self.endpoint = base_url.rstrip("/") + "/responses"
         self.api_key, self.model = api_key.strip(), model.strip()
         self.identity = f"live:{self.endpoint}:{self.model}"
         self.transport = transport or post_json
 
-    def decide(self, context: dict) -> dict:
-        body = {"model": self.model, "instructions": PROMPT,
-                "input": [{"role": "user", "content": json.dumps(context, ensure_ascii=False)}],
-                "tools": tool_definitions(), "tool_choice": "required",
-                "parallel_tool_calls": False, "store": False, "max_output_tokens": 4096}
+    def _send(self, body: dict) -> dict:
         request = Request(self.endpoint, json.dumps(body, ensure_ascii=False).encode("utf-8"),
                           {"Content-Type": "application/json", "Authorization": f"Bearer {self.api_key}"}, method="POST")
         try:
-            response = self.transport(request, 45)
+            return self.transport(request, 45)
         except HTTPError as error:
             raise ModelError(f"模型 HTTP {error.code}；请检查本地配置、可用额度或稍后续跑") from None
         except (URLError, TimeoutError, OSError):
             raise ModelError("模型网络或超时错误；未自动重试，请检查网络后续跑") from None
         except (ValueError, UnicodeError):
             raise ModelError("模型服务返回了无法解析的 JSON") from None
+
+    def decide(self, context: dict) -> dict:
+        body = {"model": self.model, "instructions": PROMPT,
+                "input": [{"role": "user", "content": json.dumps(context, ensure_ascii=False)}],
+                "tools": tool_definitions(), "tool_choice": "required",
+                "parallel_tool_calls": False, "store": False, "max_output_tokens": 4096}
+        response = self._send(body)
         try:
             if not isinstance(response, dict) or response.get("status") != "completed":
                 raise ValueError

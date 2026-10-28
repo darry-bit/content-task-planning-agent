@@ -73,7 +73,19 @@ Unix shell 的测试入口：`PYTHONPATH=src python -m unittest discover -s test
 
 ## 真实模型运行
 
-适配器实现 OpenAI **Responses API** 的函数调用协议。`OPENAI_BASE_URL` 是 API 根地址，例如 `https://api.openai.com/v1`，程序会追加 `/responses`。其他服务必须兼容此协议；仅兼容 Chat Completions 的服务不能直接接入。
+已提供三种明确的供应商入口，默认仍为 openai，避免改变旧命令语义：
+
+| 参数 | 协议 | 本地配置 |
+| --- | --- | --- |
+| `--provider deepseek` | Chat Completions | `DEEPSEEK_API_KEY`、`DEEPSEEK_MODEL`；根地址默认 `https://api.deepseek.com` |
+| `--provider dashscope` | 百炼 Qwen Chat Completions | `DASHSCOPE_API_KEY`、`DASHSCOPE_MODEL`、控制台实际 `DASHSCOPE_BASE_URL` |
+| `--provider openai` | Responses | `OPENAI_API_KEY`、`OPENAI_MODEL`；根地址默认 `https://api.openai.com/v1` |
+
+**你已有 DeepSeek 和百炼账号，可直接照 `docs/08-provider-setup.md` 配置和运行。** 不需要两家都运行，也不要把密钥发给 AI。
+
+两种 Chat 适配器使用非思考模式和本地参数校验；DeepSeek 使用 required 工具选择，百炼 Qwen 使用 auto。百炼若只返回文本，或供应商返回多个工具调用，项目会明确停止，不擅自执行部分动作。当前未对百炼内的其他模型家族或思考专用模型做适配。
+
+下面保留原 OpenAI 使用方式。`OPENAI_BASE_URL` 是 API 根地址，例如 `https://api.openai.com/v1`，程序会追加 `/responses`。Chat 入口会追加 `/chat/completions`，不要填写完整接口路径。
 
 模型名不写死，需选择账号实际可用且支持该协议的模型。按 [OpenAI 官方函数调用文档](https://developers.openai.com/api/docs/guides/function-calling)核实供应商能力。当前采用每轮发送完整状态快照的方式，使模型读取工具观察后选择下一步；未使用服务端会话存储。
 
