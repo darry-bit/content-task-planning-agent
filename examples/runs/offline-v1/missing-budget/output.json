@@ -1,0 +1,13 @@
+{
+  "status": "needs_input",
+  "missing": [
+    "budget"
+  ],
+  "mode": "mock",
+  "request": {
+    "theme": "校园咖啡店期末促销",
+    "deadline": "2026-10-28T18:00:00+08:00"
+  },
+  "steps": [],
+  "notice": "输入未齐全或不合法，未调用模型和业务工具"
+}

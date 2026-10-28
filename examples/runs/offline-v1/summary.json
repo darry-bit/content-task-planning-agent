@@ -1,0 +1,88 @@
+{
+  "mode": "mock",
+  "fixed_now": "2026-10-28T10:00:00+08:00",
+  "executed_at_utc": "2026-10-28T03:10:54.930299+00:00",
+  "real_model_verified": false,
+  "cases": [
+    {
+      "case": "normal",
+      "expected": "completed",
+      "actual": "completed",
+      "exit_code": 0,
+      "passed": true,
+      "projected_total": "12.70",
+      "budget_gap": "0.00",
+      "time_gap_minutes": 0.0
+    },
+    {
+      "case": "missing-budget",
+      "expected": "needs_input",
+      "actual": "needs_input",
+      "exit_code": 3,
+      "passed": true,
+      "projected_total": null,
+      "budget_gap": null,
+      "time_gap_minutes": null
+    },
+    {
+      "case": "missing-deadline",
+      "expected": "needs_input",
+      "actual": "needs_input",
+      "exit_code": 3,
+      "passed": true,
+      "projected_total": null,
+      "budget_gap": null,
+      "time_gap_minutes": null
+    },
+    {
+      "case": "tool-failure",
+      "expected": "completed",
+      "actual": "completed",
+      "exit_code": 0,
+      "passed": true,
+      "projected_total": "12.70",
+      "budget_gap": "0.00",
+      "time_gap_minutes": 0.0
+    },
+    {
+      "case": "over-budget",
+      "expected": "completed",
+      "actual": "completed",
+      "exit_code": 0,
+      "passed": true,
+      "projected_total": "9.10",
+      "budget_gap": "0.00",
+      "time_gap_minutes": 0.0
+    },
+    {
+      "case": "impossible",
+      "expected": "incomplete",
+      "actual": "incomplete",
+      "exit_code": 3,
+      "passed": true,
+      "projected_total": "7.50",
+      "budget_gap": "4.50",
+      "time_gap_minutes": 0.0
+    },
+    {
+      "case": "time-tight",
+      "expected": "completed",
+      "actual": "completed",
+      "exit_code": 0,
+      "passed": true,
+      "projected_total": "7.50",
+      "budget_gap": "0.00",
+      "time_gap_minutes": 0.0
+    },
+    {
+      "case": "time-impossible",
+      "expected": "incomplete",
+      "actual": "incomplete",
+      "exit_code": 3,
+      "passed": true,
+      "projected_total": "7.50",
+      "budget_gap": "0.00",
+      "time_gap_minutes": 36.0
+    }
+  ]
+}

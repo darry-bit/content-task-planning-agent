@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "python",
+    "run.py",
+    "--input",
+    "examples/inputs/impossible.json",
+    "--mode",
+    "mock",
+    "--now",
+    "2026-10-28T10:00:00+08:00",
+    "--output",
+    "C:\\Users\\Admin\\Documents\\Codex\\2026-10-28\\zh\\outputs\\content-task-agent\\examples\\runs\\offline-v1\\impossible"
+  ],
+  "python_version": "3.12.14",
+  "stderr": "",
+  "exit_code": 3,
+  "clock_is_simulated": true
+}

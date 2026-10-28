@@ -1,0 +1,11 @@
+{
+  "python_version": "3.12.14",
+  "build_and_install_exit_code": 0,
+  "build_command": "python -m pip install --no-build-isolation --no-deps --no-cache-dir --target <temporary-install-directory> .",
+  "installed_module_command": "PYTHONPATH=<temporary-install-directory> python -m content_agent --input examples/inputs/normal.json --mode mock --now 2026-10-28T10:00:00+08:00 --output <temporary-output-directory>",
+  "installed_module_exit_code": 0,
+  "installed_run_status": "completed",
+  "packaged_rules_loaded": true,
+  "total_cost": "12.70",
+  "real_model_verified": false
+}

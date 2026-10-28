@@ -1,0 +1,267 @@
+{
+  "schema_version": 1,
+  "request": {
+    "theme": "校园咖啡店期末促销",
+    "budget": 20,
+    "deadline": "2026-10-28T18:00:00+08:00"
+  },
+  "started_at": "2026-10-28T10:00:00+08:00",
+  "elapsed_minutes": 4,
+  "rules_fingerprint": "6ca314b37d4846b53872c93d86159534b85a229871373241019842c617d9acf6",
+  "ledger": [
+    {
+      "tool": "search_assets",
+      "fee": "0.20",
+      "minutes": 1
+    },
+    {
+      "tool": "generate_script",
+      "fee": "0.30",
+      "minutes": 2
+    }
+  ],
+  "catalog": [
+    {
+      "id": "premium",
+      "title": "合成素材：专业场景镜头",
+      "cost": "8.00",
+      "minutes": 30,
+      "license": "synthetic-demo",
+      "tags": [
+        "活动",
+        "校园",
+        "咖啡"
+      ]
+    },
+    {
+      "id": "economy",
+      "title": "合成素材：店内图文与通用镜头",
+      "cost": "4.00",
+      "minutes": 10,
+      "license": "synthetic-demo",
+      "tags": [
+        "活动",
+        "校园",
+        "咖啡"
+      ]
+    }
+  ],
+  "plan": {
+    "asset_id": "premium",
+    "channel": "video",
+    "script": {
+      "headline": "校园咖啡店期末促销：一起参与",
+      "body": "用选定素材介绍活动亮点，展示参与步骤和规则。价格、优惠和授权信息须由运营确认。",
+      "call_to_action": "查看活动说明，按规则参与"
+    },
+    "version": 1,
+    "theme": "校园咖啡店期末促销"
+  },
+  "estimate": null,
+  "steps": [
+    {
+      "id": 1,
+      "tool": "search_assets",
+      "arguments": {},
+      "status": "succeeded",
+      "plan_version": null,
+      "result": {
+        "ok": true,
+        "data": [
+          {
+            "id": "premium",
+            "title": "合成素材：专业场景镜头",
+            "cost": "8.00",
+            "minutes": 30,
+            "license": "synthetic-demo",
+            "tags": [
+              "活动",
+              "校园",
+              "咖啡"
+            ]
+          },
+          {
+            "id": "economy",
+            "title": "合成素材：店内图文与通用镜头",
+            "cost": "4.00",
+            "minutes": 10,
+            "license": "synthetic-demo",
+            "tags": [
+              "活动",
+              "校园",
+              "咖啡"
+            ]
+          }
+        ],
+        "reused": false,
+        "fee": "0.20",
+        "minutes": 1
+      }
+    },
+    {
+      "id": 2,
+      "tool": "generate_script",
+      "arguments": {
+        "asset_id": "premium",
+        "channel": "video",
+        "script": {
+          "headline": "校园咖啡店期末促销：一起参与",
+          "body": "用选定素材介绍活动亮点，展示参与步骤和规则。价格、优惠和授权信息须由运营确认。",
+          "call_to_action": "查看活动说明，按规则参与"
+        }
+      },
+      "status": "succeeded",
+      "plan_version": 1,
+      "result": {
+        "ok": true,
+        "data": {
+          "asset_id": "premium",
+          "channel": "video",
+          "script": {
+            "headline": "校园咖啡店期末促销：一起参与",
+            "body": "用选定素材介绍活动亮点，展示参与步骤和规则。价格、优惠和授权信息须由运营确认。",
+            "call_to_action": "查看活动说明，按规则参与"
+          },
+          "version": 1,
+          "theme": "校园咖啡店期末促销"
+        },
+        "reused": false,
+        "fee": "0.30",
+        "minutes": 2
+      }
+    },
+    {
+      "id": 3,
+      "tool": "estimate_cost",
+      "arguments": {},
+      "status": "failed",
+      "plan_version": 1,
+      "result": {
+        "ok": false,
+        "error": {
+          "code": "INJECTED_FAILURE",
+          "message": "测试注入的临时故障；可重新选择动作",
+          "details": {}
+        },
+        "reused": false,
+        "fee": "0.00",
+        "minutes": 1
+      }
+    }
+  ],
+  "events": [
+    {
+      "seq": 1,
+      "mode": "mock",
+      "action": {
+        "tool": "search_assets",
+        "arguments": {},
+        "reason": "先获取可用素材及费用、耗时"
+      },
+      "observation": {
+        "ok": true,
+        "data": [
+          {
+            "id": "premium",
+            "title": "合成素材：专业场景镜头",
+            "cost": "8.00",
+            "minutes": 30,
+            "license": "synthetic-demo",
+            "tags": [
+              "活动",
+              "校园",
+              "咖啡"
+            ]
+          },
+          {
+            "id": "economy",
+            "title": "合成素材：店内图文与通用镜头",
+            "cost": "4.00",
+            "minutes": 10,
+            "license": "synthetic-demo",
+            "tags": [
+              "活动",
+              "校园",
+              "咖啡"
+            ]
+          }
+        ],
+        "reused": false,
+        "fee": "0.20",
+        "minutes": 1
+      },
+      "spent_after": "0.20",
+      "elapsed_minutes_after": 1
+    },
+    {
+      "seq": 2,
+      "mode": "mock",
+      "action": {
+        "tool": "generate_script",
+        "arguments": {
+          "asset_id": "premium",
+          "channel": "video",
+          "script": {
+            "headline": "校园咖啡店期末促销：一起参与",
+            "body": "用选定素材介绍活动亮点，展示参与步骤和规则。价格、优惠和授权信息须由运营确认。",
+            "call_to_action": "查看活动说明，按规则参与"
+          }
+        },
+        "reason": "根据当前工具观察选择素材与渠道；这是离线规则策略"
+      },
+      "observation": {
+        "ok": true,
+        "data": {
+          "asset_id": "premium",
+          "channel": "video",
+          "script": {
+            "headline": "校园咖啡店期末促销：一起参与",
+            "body": "用选定素材介绍活动亮点，展示参与步骤和规则。价格、优惠和授权信息须由运营确认。",
+            "call_to_action": "查看活动说明，按规则参与"
+          },
+          "version": 1,
+          "theme": "校园咖啡店期末促销"
+        },
+        "reused": false,
+        "fee": "0.30",
+        "minutes": 2
+      },
+      "spent_after": "0.50",
+      "elapsed_minutes_after": 3
+    },
+    {
+      "seq": 3,
+      "mode": "mock",
+      "action": {
+        "tool": "estimate_cost",
+        "arguments": {},
+        "reason": "当前脚本已成功，估算费用和截止时间可行性"
+      },
+      "observation": {
+        "ok": false,
+        "error": {
+          "code": "INJECTED_FAILURE",
+          "message": "测试注入的临时故障；可重新选择动作",
+          "details": {}
+        },
+        "reused": false,
+        "fee": "0.00",
+        "minutes": 1
+      },
+      "spent_after": "0.50",
+      "elapsed_minutes_after": 4
+    }
+  ],
+  "failures_remaining": {
+    "estimate_cost": 0
+  },
+  "status": "incomplete",
+  "reason": "达到模型动作上限，已保留状态，可提高上限后续跑",
+  "saved_path": null,
+  "clock": {
+    "kind": "fixed",
+    "value": "2026-10-28T10:00:00+08:00"
+  },
+  "model_identity": "mock:scripted-v1",
+  "stop_code": "STEP_LIMIT"
+}
